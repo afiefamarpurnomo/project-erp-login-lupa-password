@@ -150,7 +150,7 @@ pub async fn update_account (mut req : Request<PgPool>) -> tide::Result<Response
     let pool = req.state();
      
      match
-     sqlx::query("UPDATE login SET password=$3 WHERE username=$1")
+     sqlx::query("UPDATE login SET password=sha256($3) WHERE username=$1")
      .bind(param.username)
      .bind(param.email)
      .bind(param.password.as_bytes())
